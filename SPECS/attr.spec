@@ -1,13 +1,13 @@
 Summary: Utilities for managing filesystem extended attributes
 Name: attr
-Version: 2.5.2
-Release: 5%{?dist}
+Version: 2.6.0
+Release: 1%{?dist}
 Source0: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz
 Source1: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz.sig
 # Retreived from https://savannah.nongnu.org/people/viewgpg.php?user_id=15000
-# Source2: agruen-key.gpg
+Source2: agruen-key.gpg
 # Retrieved from https://savannah.nongnu.org/people/viewgpg.php?user_id=42032
-Source2: vapier-key.gpg
+# Source2: vapier-key.gpg
 
 # xattr.conf: remove entries for NFSv4 ACLs namespaces (#1031423)
 # https://lists.nongnu.org/archive/html/acl-devel/2019-03/msg00000.html
@@ -77,7 +77,6 @@ sed -e 's|test/root/getfattr.test||' \
 
 %build
 %configure
-%make_build -C po ka.gmo
 %make_build
 
 %check
@@ -125,6 +124,10 @@ ln -fs ../sys/xattr.h $RPM_BUILD_ROOT%{_includedir}/attr/xattr.h
 %config(noreplace) %{_sysconfdir}/xattr.conf
 
 %changelog
+* Thu Jun 25 2026 Lukáš Zaoral <lzaoral@redhat.com> - 2.6.0-1
+- rebase to 2.6.0 to fix the following CVEs:
+  - CVE-2026-54371 - Symlink Traversal Privilege Escalation via getfattr (RHEL-186128)
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 2.5.2-5
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
