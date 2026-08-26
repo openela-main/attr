@@ -1,8 +1,11 @@
 Summary: Utilities for managing filesystem extended attributes
 Name: attr
-Version: 2.5.1
-Release: 3%{?dist}
-Source: https://download-mirror.savannah.gnu.org/releases/attr/attr-%{version}.tar.gz
+Version: 2.6.0
+Release: 1%{?dist}
+Source0: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz
+Source1: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz.sig
+# Retreived from https://savannah.nongnu.org/people/viewgpg.php?user_id=15000
+Source2: agruen-key.gpg
 
 # xattr.conf: remove entries for NFSv4 ACLs namespaces (#1031423)
 # https://lists.nongnu.org/archive/html/acl-devel/2019-03/msg00000.html
@@ -15,6 +18,7 @@ URL: https://savannah.nongnu.org/projects/attr
 BuildRequires: gettext
 BuildRequires: libtool
 BuildRequires: make
+BuildRequires: gnupg2
 Requires: libattr%{?_isa} = %{version}-%{release}
 
 # needed for %%check
@@ -62,6 +66,7 @@ which make use of extended attributes.  If you install libattr-devel,
 you'll also want to install attr.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -p1
 
 # FIXME: root tests are not ready for SELinux
@@ -117,6 +122,10 @@ ln -fs ../sys/xattr.h $RPM_BUILD_ROOT%{_includedir}/attr/xattr.h
 %config(noreplace) %{_sysconfdir}/xattr.conf
 
 %changelog
+* Thu Jun 25 2026 Lukáš Zaoral <lzaoral@redhat.com> - 2.6.0-1
+- rebase to 2.6.0 to fix the following CVEs:
+  - CVE-2026-54371 - Symlink Traversal Privilege Escalation via getfattr (RHEL-186121)
+
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 2.5.1-3
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
