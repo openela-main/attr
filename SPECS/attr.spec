@@ -1,7 +1,7 @@
 Summary: Utilities for managing filesystem extended attributes
 Name: attr
 Version: 2.6.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Source0: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz
 Source1: https://download.savannah.nongnu.org/releases/attr/attr-%{version}.tar.xz.sig
 # Retreived from https://savannah.nongnu.org/people/viewgpg.php?user_id=15000
@@ -122,9 +122,9 @@ ln -fs ../sys/xattr.h $RPM_BUILD_ROOT%{_includedir}/attr/xattr.h
 %config(noreplace) %{_sysconfdir}/xattr.conf
 
 %changelog
-* Thu Jun 25 2026 Lukáš Zaoral <lzaoral@redhat.com> - 2.6.0-1
+* Mon Jul 13 2026 Lukáš Zaoral <lzaoral@redhat.com> - 2.6.0-2
 - rebase to 2.6.0 to fix the following CVEs:
-  - CVE-2026-54371 - Symlink Traversal Privilege Escalation via getfattr (RHEL-186121)
+  - CVE-2026-54371 - Symlink Traversal Privilege Escalation via getfattr
 
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 2.5.1-3
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
